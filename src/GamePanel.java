@@ -30,7 +30,6 @@ public class GamePanel extends JPanel implements ActionListener{
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         startGame();
-
     }
 
     public void startGame(){
