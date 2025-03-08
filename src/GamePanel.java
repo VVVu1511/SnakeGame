@@ -46,11 +46,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
     public void draw(Graphics g){
         if(running){
-            // for(int i = 0; i < SCREEN_HEIGHT / UNIT_SIZE; i++){
-            //     g.drawLine(i*UNIT_SIZE,0,i*UNIT_SIZE,SCREEN_HEIGHT);
-            //     g.drawLine(0,i * UNIT_SIZE,SCREEN_WIDTH,i * UNIT_SIZE);
-            // }
-
             g.setColor(Color.red);
             g.fillOval(appleX,appleY,UNIT_SIZE,UNIT_SIZE);
 
@@ -64,10 +59,8 @@ public class GamePanel extends JPanel implements ActionListener{
                 g.fillRect(x[i],y[i],UNIT_SIZE,UNIT_SIZE);
             }
 
-            g.setColor(Color.red);
-            g.setFont(new Font("Ink Free",Font.BOLD,40));
-            FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("Score: " + appleEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: " + appleEaten) ) / 2, g.getFont().getSize());
+            helpUI(g, Color.red, 40,"Score: " + appleEaten);
+                
         }
         else{
             gameOver(g);
@@ -140,16 +133,18 @@ public class GamePanel extends JPanel implements ActionListener{
         }
     }
 
-    public void gameOver(Graphics g){
-        g.setColor(Color.red);
-        g.setFont(new Font("Ink Free",Font.BOLD,40));
+
+    public void helpUI(Graphics g,Color color, int font_size,String description){
+        g.setColor(color);
+        g.setFont(new Font("Ink Free",Font.BOLD,font_size));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("Score: " + appleEaten, (SCREEN_WIDTH - metrics1.stringWidth("Score: " + appleEaten) ) / 2, g.getFont().getSize());
+        g.drawString(description, (SCREEN_WIDTH - metrics1.stringWidth(description) ) / 2, g.getFont().getSize());
         
-        g.setColor(Color.red);
-        g.setFont(new Font("Ink Free",Font.BOLD,100));
-        FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (SCREEN_WIDTH - metrics.stringWidth("Game Over") ) / 2, SCREEN_HEIGHT / 2);
+    }
+
+    public void gameOver(Graphics g){
+        helpUI(g, Color.red, 40, "Score: " + appleEaten);
+        helpUI(g, Color.red, 100, "Game Over");
     }
 
     @Override
