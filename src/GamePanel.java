@@ -14,6 +14,9 @@ public class GamePanel extends JPanel implements ActionListener{
     static final int DELAY = 75;
     final int x[] = new int[GAME_UNITS];
     final int y[] = new int[GAME_UNITS];
+    
+    int obstacleX;
+    int obstacleY;
     int bodyParts = 6;
     int appleEaten = 0;
     int appleX;
@@ -34,9 +37,15 @@ public class GamePanel extends JPanel implements ActionListener{
 
     public void startGame(){
         newApple();
+        newObstacle();
         running = true;
         timer = new Timer(DELAY,this);
         timer.start();
+    }
+
+    public void newObstacle(){
+        obstacleX = random.nextInt(SCREEN_WIDTH / UNIT_SIZE);
+        obstacleY = random.nextInt(SCREEN_HEIGHT / UNIT_SIZE);
     }
 
     public void paintComponent(Graphics g){
@@ -48,6 +57,9 @@ public class GamePanel extends JPanel implements ActionListener{
         if(running){
             g.setColor(Color.red);
             g.fillOval(appleX,appleY,UNIT_SIZE,UNIT_SIZE);
+
+            g.setColor(Color.blue);
+            g.fillRect(obstacleX, obstacleY, UNIT_SIZE, UNIT_SIZE);
 
             for(int i = 0; i < bodyParts; i++){
                 if(i == 0){
@@ -109,6 +121,11 @@ public class GamePanel extends JPanel implements ActionListener{
             if((x[0] == x[i]) && (y[0] == y[i])){
                 running = false;
             }
+        }
+
+        //check if we collides with obstacle
+        if(x[0] == obstacleX && y[0] == obstacleY){
+            running = false;
         }
 
         //check if head touches left border
